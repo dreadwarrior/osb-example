@@ -1,0 +1,4 @@
+GET {{host}}/v2/catalog
+Authorization: Basic {{username}} {{password}}
+Accept: application/json
+X-Broker-API-Version: 2.16
