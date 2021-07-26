@@ -1,6 +1,6 @@
-package de.dreadlabs.osbexample;
+package de.dreadlabs.osbexample.catalog;
 
-import de.dreadlabs.osbexample.dto.Catalog;
+import de.dreadlabs.osbexample.catalog.dto.Catalog;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

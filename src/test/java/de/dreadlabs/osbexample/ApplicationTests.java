@@ -1,5 +1,6 @@
 package de.dreadlabs.osbexample;
 
+import de.dreadlabs.osbexample.catalog.CatalogService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

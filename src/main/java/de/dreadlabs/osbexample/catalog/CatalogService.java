@@ -1,8 +1,8 @@
-package de.dreadlabs.osbexample;
+package de.dreadlabs.osbexample.catalog;
 
-import de.dreadlabs.osbexample.dto.Catalog;
-import de.dreadlabs.osbexample.dto.ServiceOffering;
-import de.dreadlabs.osbexample.dto.ServicePlan;
+import de.dreadlabs.osbexample.catalog.dto.Catalog;
+import de.dreadlabs.osbexample.catalog.dto.ServiceOffering;
+import de.dreadlabs.osbexample.catalog.dto.ServicePlan;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;

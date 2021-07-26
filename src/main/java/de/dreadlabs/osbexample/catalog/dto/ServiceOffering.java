@@ -1,4 +1,4 @@
-package de.dreadlabs.osbexample.dto;
+package de.dreadlabs.osbexample.catalog.dto;
 
 import java.util.Collection;
 
