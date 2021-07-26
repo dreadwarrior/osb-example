@@ -2,3 +2,27 @@ GET {{host}}/v2/catalog
 Authorization: Basic {{username}} {{password}}
 Accept: application/json
 X-Broker-API-Version: 2.16
+
+###
+
+PUT {{host}}/v2/service_instances/{{$uuid}}
+Authorization: Basic {{username}} {{password}}
+Content-Type: application/json
+X-Broker-API-Version: 2.16
+
+{
+  "service_id": "in-memory-database",
+  "plan_id": "free",
+  "context": {
+    "scope": "demo"
+  },
+  "organization_guid": "{{$uuid}}",
+  "space_guid": "{{$uuid}}"
+}
+
+###
+
+DELETE {{host}}/v2/service_instances/{{uuid}}?service_id={{service_id}}&plan_id={{plan_id}}
+Authorization: Basic {{username}} {{password}}
+Content-Type: application/json
+X-Broker-API-Version: 2.16
