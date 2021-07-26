@@ -48,4 +48,12 @@ public class CatalogService {
     public Catalog list() {
         return new Catalog(serviceOfferings);
     }
+
+    public boolean hasService(String serviceId) {
+        return serviceOfferings.stream().anyMatch(it -> it.id().equals(serviceId));
+    }
+
+    public boolean hasPlan(String planId) {
+        return plans.stream().anyMatch(it -> it.id().equals(planId));
+    }
 }

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import reactor.core.publisher.Mono;
 
-import java.net.MalformedURLException;
+import javax.validation.Valid;
 
 import static org.springframework.http.ResponseEntity.ok;
 import static org.springframework.http.ResponseEntity.status;
@@ -37,11 +37,17 @@ public class ProvisioningController {
             headers = {"X-Broker-API-Version=2.16"},
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public ServiceInstance create(
+    public Mono<ResponseEntity<ServiceInstance>> create(
             @PathVariable(name = "instance_id") String instanceId,
-            @RequestBody ServiceInstanceRequest serviceInstance
-    ) throws MalformedURLException {
-        return this.provisioningService.createServiceInstance(instanceId, serviceInstance);
+            @Valid @RequestBody ServiceInstanceRequest serviceInstance
+    ) {
+        return this.provisioningService.createServiceInstance(instanceId, serviceInstance)
+                .map(it -> status(HttpStatus.CREATED).body(it))
+                .onErrorResume(
+                        ServiceInstanceAlreadyExisting.class,
+                        e -> this.provisioningService.getInstance(instanceId)
+                                .map(ResponseEntity::ok)
+                );
     }
 
     @DeleteMapping(
