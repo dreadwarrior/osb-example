@@ -1,10 +1,7 @@
 package de.dreadlabs.osbexample.provisioning.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public record ServiceInstance (
-        String dashboardUrl,
-        String operation,
-        ServiceInstanceMetadata metadata
+        @JsonProperty("dashboard_url") String dashboardUrl
 ) { }
