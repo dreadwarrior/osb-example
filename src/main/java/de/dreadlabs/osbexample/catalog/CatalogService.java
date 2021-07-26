@@ -6,27 +6,28 @@ import de.dreadlabs.osbexample.catalog.dto.ServicePlan;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
+import java.util.UUID;
 
 @Component
 public class CatalogService {
 
-    public Catalog list() {
+    HashSet<ServicePlan> plans = new HashSet<>();
 
-        HashSet<ServicePlan> plans = new HashSet<>();
+    HashSet<ServiceOffering> serviceOfferings = new HashSet<>();
 
+    public CatalogService() {
         plans.add(
                 new ServicePlan(
-                        "free",
-                        "Free plan",
+                        UUID.randomUUID().toString(),
+                        "free-plan",
                         "Free plan with reduced QoS."
                 )
         );
 
-        HashSet<ServiceOffering> serviceOfferings = new HashSet<>();
 
         serviceOfferings.add(
                 new ServiceOffering(
-                        "In-Memory Database",
+                        UUID.randomUUID().toString(),
                         "in-memory-database",
                         "Provides an im-memory database.",
                         true,
@@ -35,14 +36,16 @@ public class CatalogService {
         );
         serviceOfferings.add(
                 new ServiceOffering(
-                        "Hello echo",
+                        UUID.randomUUID().toString(),
                         "hello-echo",
                         "Provides a service echoing your greeting.",
                         true,
                         plans
                 )
         );
+    }
 
+    public Catalog list() {
         return new Catalog(serviceOfferings);
     }
 }
