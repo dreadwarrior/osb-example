@@ -40,9 +40,8 @@ public class BindingController {
         return bindingService.createBinding(instanceId, bindingId, request)
                 .map(it -> status(HttpStatus.CREATED).body(it))
                 .onErrorResume(
-                        BindingAlreadyExisting.class,
-                        e -> bindingService.getBinding(instanceId)
-                                .map(ResponseEntity::ok)
+                        BindingExists.class,
+                        e -> bindingService.getBinding(instanceId).map(ResponseEntity::ok)
                 );
     }
 

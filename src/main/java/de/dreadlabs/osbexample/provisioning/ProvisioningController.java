@@ -44,9 +44,8 @@ public class ProvisioningController {
         return this.provisioningService.createServiceInstance(instanceId, serviceInstance)
                 .map(it -> status(HttpStatus.CREATED).body(it))
                 .onErrorResume(
-                        ServiceInstanceAlreadyExisting.class,
-                        e -> this.provisioningService.getInstance(instanceId)
-                                .map(ResponseEntity::ok)
+                        ServiceInstanceExists.class,
+                        e -> this.provisioningService.getInstance(instanceId).map(ResponseEntity::ok)
                 );
     }
 
@@ -56,7 +55,6 @@ public class ProvisioningController {
             @RequestParam(name = "service_id") String serviceId,
             @RequestParam(name = "plan_id") String planId
     ) {
-        return this.provisioningService.deleteServiceInstance(instanceId)
-                .map(it -> ok(new EmptyResponse()));
+        return this.provisioningService.deleteServiceInstance(instanceId).map(it -> ok(new EmptyResponse()));
     }
 }

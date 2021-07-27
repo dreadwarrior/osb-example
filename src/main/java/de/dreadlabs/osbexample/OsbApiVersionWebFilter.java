@@ -1,6 +1,6 @@
 package de.dreadlabs.osbexample;
 
-//import de.dreadlabs.osbexample.common.ServiceBrokerError;
+//import de.dreadlabs.osbexample.common.dto.ServiceBrokerError;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;

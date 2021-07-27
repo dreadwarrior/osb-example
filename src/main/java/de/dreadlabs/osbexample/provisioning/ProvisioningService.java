@@ -1,8 +1,10 @@
 package de.dreadlabs.osbexample.provisioning;
 
 import de.dreadlabs.osbexample.catalog.CatalogService;
-import de.dreadlabs.osbexample.provisioning.dto.ProvisioningResponse;
+import de.dreadlabs.osbexample.common.ExistingEntityAttributesMismatch;
+import de.dreadlabs.osbexample.common.UnknownEntity;
 import de.dreadlabs.osbexample.provisioning.dto.ProvisioningRequest;
+import de.dreadlabs.osbexample.provisioning.dto.ProvisioningResponse;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
@@ -24,20 +26,20 @@ public class ProvisioningService {
             ProvisioningRequest request
     ) {
         if (!catalog.hasService(request.serviceId())) {
-            return Mono.error(new UnknownService(request.serviceId()));
+            return Mono.error(UnknownEntity.service(request.serviceId()));
         }
         if (!catalog.hasPlan(request.planId())) {
-            return Mono.error(new UnknownPlan(request.planId()));
+            return Mono.error(UnknownEntity.plan(request.planId()));
         }
 
         ProvisioningResponse instance = new ProvisioningResponse("http://localhost:8080/" + instanceId);
 
         if (instances.containsKey(instanceId) && instances.get(instanceId).equals(request)) {
-            return Mono.error(new ServiceInstanceAlreadyExisting());
+            return Mono.error(new ServiceInstanceExists());
         }
 
         if (instances.containsKey(instanceId) && !instances.get(instanceId).equals(request)) {
-            return Mono.error(new ServiceInstanceAlreadyExistingAttributesMismatch(instanceId));
+            return Mono.error(ExistingEntityAttributesMismatch.provisioning(instanceId));
         }
 
         instances.put(instanceId, request);
@@ -47,7 +49,7 @@ public class ProvisioningService {
 
     public Mono<Void> deleteServiceInstance(String instanceId) {
         if (!instances.containsKey(instanceId)) {
-            return Mono.error(new ServiceInstanceDoesNotExist("Service instance '" + instanceId + "' does not exist."));
+            return Mono.error(new UnknownServiceInstance("Service instance '" + instanceId + "' does not exist."));
         }
 
         instances.remove(instanceId);

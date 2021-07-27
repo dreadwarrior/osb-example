@@ -2,6 +2,7 @@ package de.dreadlabs.osbexample.binding;
 
 import de.dreadlabs.osbexample.binding.dto.BindingRequest;
 import de.dreadlabs.osbexample.binding.dto.BindingResponse;
+import de.dreadlabs.osbexample.common.ExistingEntityAttributesMismatch;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
@@ -18,11 +19,11 @@ public class BindingService {
             BindingRequest request
     ) {
         if (bindings.containsKey(instanceId) && bindings.get(instanceId).containsKey(bindingId) && bindings.get(instanceId).get(bindingId).equals(request)) {
-            return Mono.error(new BindingAlreadyExisting());
+            return Mono.error(new BindingExists());
         }
 
         if (bindings.containsKey(instanceId) && bindings.get(instanceId).containsKey(bindingId) && !bindings.get(instanceId).get(bindingId).equals(request)) {
-            return Mono.error(new BindingAlreadyExistingAttributesMismatch(instanceId, bindingId));
+            return Mono.error(ExistingEntityAttributesMismatch.binding(instanceId, bindingId));
         }
 
         if (!bindings.containsKey(instanceId)) {
