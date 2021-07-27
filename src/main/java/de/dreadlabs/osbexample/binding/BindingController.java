@@ -2,7 +2,7 @@ package de.dreadlabs.osbexample.binding;
 
 import de.dreadlabs.osbexample.binding.dto.BindingRequest;
 import de.dreadlabs.osbexample.binding.dto.BindingResponse;
-import de.dreadlabs.osbexample.provisioning.dto.EmptyResponse;
+import de.dreadlabs.osbexample.common.dto.EmptyResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

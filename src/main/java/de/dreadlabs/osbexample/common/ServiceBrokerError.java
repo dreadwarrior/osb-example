@@ -1,4 +1,4 @@
-package de.dreadlabs.osbexample.provisioning;
+package de.dreadlabs.osbexample.common;
 
 public record ServiceBrokerError(
         String error,

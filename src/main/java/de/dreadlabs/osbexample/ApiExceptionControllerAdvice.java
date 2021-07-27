@@ -1,6 +1,7 @@
 package de.dreadlabs.osbexample;
 
 import de.dreadlabs.osbexample.binding.BindingAlreadyExistingAttributesMismatch;
+import de.dreadlabs.osbexample.common.ServiceBrokerError;
 import de.dreadlabs.osbexample.provisioning.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

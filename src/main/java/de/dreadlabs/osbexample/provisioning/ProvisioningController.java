@@ -1,6 +1,6 @@
 package de.dreadlabs.osbexample.provisioning;
 
-import de.dreadlabs.osbexample.provisioning.dto.EmptyResponse;
+import de.dreadlabs.osbexample.common.dto.EmptyResponse;
 import de.dreadlabs.osbexample.provisioning.dto.ProvisioningResponse;
 import de.dreadlabs.osbexample.provisioning.dto.ProvisioningRequest;
 import org.springframework.http.HttpStatus;
