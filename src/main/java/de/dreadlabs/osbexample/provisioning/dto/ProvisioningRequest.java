@@ -7,7 +7,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 
-public record ServiceInstanceRequest(
+public record ProvisioningRequest(
     @JsonProperty("service_id") @NotBlank @NotNull @NotEmpty String serviceId,
     @JsonProperty("plan_id") @NotBlank @NotNull @NotEmpty String planId,
     HashMap<String, String> context,

@@ -1,7 +1,8 @@
 package de.dreadlabs.osbexample.provisioning;
 
-import de.dreadlabs.osbexample.provisioning.dto.ServiceInstance;
-import de.dreadlabs.osbexample.provisioning.dto.ServiceInstanceRequest;
+import de.dreadlabs.osbexample.provisioning.dto.EmptyResponse;
+import de.dreadlabs.osbexample.provisioning.dto.ProvisioningResponse;
+import de.dreadlabs.osbexample.provisioning.dto.ProvisioningRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -34,12 +35,11 @@ public class ProvisioningController {
 
     @PutMapping(
             value = "/{instance_id}",
-            headers = {"X-Broker-API-Version=2.16"},
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public Mono<ResponseEntity<ServiceInstance>> create(
+    public Mono<ResponseEntity<ProvisioningResponse>> create(
             @PathVariable(name = "instance_id") String instanceId,
-            @Valid @RequestBody ServiceInstanceRequest serviceInstance
+            @Valid @RequestBody ProvisioningRequest serviceInstance
     ) {
         return this.provisioningService.createServiceInstance(instanceId, serviceInstance)
                 .map(it -> status(HttpStatus.CREATED).body(it))
@@ -50,17 +50,13 @@ public class ProvisioningController {
                 );
     }
 
-    @DeleteMapping(
-            value = "/{instance_id}",
-            headers = {"X-Broker-API-Version=2.16"}
-    )
-    public Mono<ResponseEntity<String>> delete(
+    @DeleteMapping(value = "/{instance_id}")
+    public Mono<ResponseEntity<EmptyResponse>> delete(
             @PathVariable(name = "instance_id") String instanceId,
             @RequestParam(name = "service_id") String serviceId,
             @RequestParam(name = "plan_id") String planId
     ) {
         return this.provisioningService.deleteServiceInstance(instanceId)
-                .map(it -> ok(""))
-                .onErrorReturn(ServiceInstanceDoesNotExist.class, status(HttpStatus.GONE).body(""));
+                .map(it -> ok(new EmptyResponse()));
     }
 }

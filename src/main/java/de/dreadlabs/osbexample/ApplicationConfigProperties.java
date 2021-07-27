@@ -6,6 +6,7 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 @ConfigurationProperties(prefix = "osb-example")
 @ConstructorBinding
 public record ApplicationConfigProperties(
+        String osbApiVersion,
         String userName,
         String password
 ) { }

@@ -1,6 +1,7 @@
 package de.dreadlabs.osbexample.catalog;
 
 import de.dreadlabs.osbexample.catalog.dto.Catalog;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +18,7 @@ public class CatalogController {
         this.catalogService = catalogService;
     }
 
-    @GetMapping(headers = {"Accept=application/json", "X-Broker-API-Version=2.16"})
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Catalog list() {
         return catalogService.list();
     }

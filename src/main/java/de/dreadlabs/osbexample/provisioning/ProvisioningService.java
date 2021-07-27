@@ -1,8 +1,8 @@
 package de.dreadlabs.osbexample.provisioning;
 
 import de.dreadlabs.osbexample.catalog.CatalogService;
-import de.dreadlabs.osbexample.provisioning.dto.ServiceInstance;
-import de.dreadlabs.osbexample.provisioning.dto.ServiceInstanceRequest;
+import de.dreadlabs.osbexample.provisioning.dto.ProvisioningResponse;
+import de.dreadlabs.osbexample.provisioning.dto.ProvisioningRequest;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
@@ -13,37 +13,41 @@ public class ProvisioningService {
 
     private final CatalogService catalog;
 
-    private final HashMap<String, ServiceInstanceRequest> instances = new HashMap<>();
+    private final HashMap<String, ProvisioningRequest> instances = new HashMap<>();
 
     public ProvisioningService(CatalogService catalog) {
         this.catalog = catalog;
     }
 
-    public Mono<ServiceInstance> createServiceInstance(
+    public Mono<ProvisioningResponse> createServiceInstance(
             String instanceId,
-            ServiceInstanceRequest serviceInstance
+            ProvisioningRequest request
     ) {
-        if (!catalog.hasService(serviceInstance.serviceId())) {
-            return Mono.error(new UnknownService(serviceInstance.serviceId()));
+        if (!catalog.hasService(request.serviceId())) {
+            return Mono.error(new UnknownService(request.serviceId()));
         }
-        if (!catalog.hasPlan(serviceInstance.planId())) {
-            return Mono.error(new UnknownPlan(serviceInstance.planId()));
+        if (!catalog.hasPlan(request.planId())) {
+            return Mono.error(new UnknownPlan(request.planId()));
         }
 
-        ServiceInstance instance = new ServiceInstance("http://localhost:8080/" + instanceId);
+        ProvisioningResponse instance = new ProvisioningResponse("http://localhost:8080/" + instanceId);
 
-        if (instances.containsKey(instanceId) && instances.get(instanceId) == serviceInstance) {
+        if (instances.containsKey(instanceId) && instances.get(instanceId).equals(request)) {
             return Mono.error(new ServiceInstanceAlreadyExisting());
         }
 
-        instances.put(instanceId, serviceInstance);
+        if (instances.containsKey(instanceId) && !instances.get(instanceId).equals(request)) {
+            return Mono.error(new ServiceInstanceAlreadyExistingAttributesMismatch(instanceId));
+        }
+
+        instances.put(instanceId, request);
 
         return Mono.just(instance);
     }
 
     public Mono<Void> deleteServiceInstance(String instanceId) {
         if (!instances.containsKey(instanceId)) {
-            return Mono.error(new ServiceInstanceDoesNotExist());
+            return Mono.error(new ServiceInstanceDoesNotExist("Service instance '" + instanceId + "' does not exist."));
         }
 
         instances.remove(instanceId);
@@ -51,7 +55,7 @@ public class ProvisioningService {
         return Mono.empty();
     }
 
-    public Mono<ServiceInstance> getInstance(String instanceId) {
-        return Mono.just(new ServiceInstance("http://localhost:8080/" + instanceId));
+    public Mono<ProvisioningResponse> getInstance(String instanceId) {
+        return Mono.just(new ProvisioningResponse("http://localhost:8080/" + instanceId));
     }
 }
