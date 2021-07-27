@@ -1,6 +1,6 @@
 package de.dreadlabs.osbexample.catalog;
 
-import de.dreadlabs.osbexample.catalog.dto.Catalog;
+import de.dreadlabs.osbexample.catalog.dto.CatalogResponse;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +19,7 @@ public class CatalogController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Catalog list() {
+    public CatalogResponse list() {
         return catalogService.list();
     }
 }

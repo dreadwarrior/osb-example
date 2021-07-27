@@ -1,6 +1,6 @@
 package de.dreadlabs.osbexample.catalog;
 
-import de.dreadlabs.osbexample.catalog.dto.Catalog;
+import de.dreadlabs.osbexample.catalog.dto.CatalogResponse;
 import de.dreadlabs.osbexample.catalog.dto.ServiceOffering;
 import de.dreadlabs.osbexample.catalog.dto.ServicePlan;
 import org.springframework.stereotype.Component;
@@ -45,8 +45,8 @@ public class CatalogService {
         );
     }
 
-    public Catalog list() {
-        return new Catalog(serviceOfferings);
+    public CatalogResponse list() {
+        return new CatalogResponse(serviceOfferings);
     }
 
     public boolean hasService(String serviceId) {

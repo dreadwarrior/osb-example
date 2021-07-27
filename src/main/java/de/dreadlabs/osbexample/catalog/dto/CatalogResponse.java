@@ -2,6 +2,6 @@ package de.dreadlabs.osbexample.catalog.dto;
 
 import java.util.Collection;
 
-public record Catalog(
+public record CatalogResponse(
         Collection<ServiceOffering> services
-) {}
+) { }
